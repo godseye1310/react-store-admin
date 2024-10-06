@@ -7,6 +7,7 @@ import AuthPage from "./pages/Auth/AuthPage";
 import RootLayout from "./pages/Layout/RootLayout";
 import AdminPanel from "./pages/Admin/AdminPanel";
 import "flowbite";
+import Products from "./pages/Products/Products";
 
 const router = createBrowserRouter([
 	{
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
 			{
 				path: "products",
 				children: [
-					{ index: true, element: <div>Products</div> },
+					{ index: true, element: <Products /> },
 					{
 						path: ":productId",
 						element: <div>ProductInfo</div>,

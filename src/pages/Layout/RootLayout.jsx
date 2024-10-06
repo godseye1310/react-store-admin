@@ -5,11 +5,11 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 
 const RootLayout = () => {
 	return (
-		<main className=" w-full relative">
+		<main className=" w-full relative flex flex-col">
 			<Navbar />
 			<Sidebar />
-			<div className="relative p-4 sm:ml-64">
-				<div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+			<div className="relative p-4 sm:ml-64 min-h-screen flex flex-col dark:bg-gray-900">
+				<div className="flex-1 py-4 px-3 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14 dark:bg-gray-900">
 					<Outlet />
 				</div>
 			</div>
