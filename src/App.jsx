@@ -8,6 +8,7 @@ import RootLayout from "./pages/Layout/RootLayout";
 import AdminPanel from "./pages/Admin/AdminPanel";
 import "flowbite";
 import Products from "./pages/Products/Products";
+import NewProduct from "./pages/Products/NewProduct";
 
 const router = createBrowserRouter([
 	{
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
 						path: ":productId",
 						element: <div>ProductInfo</div>,
 					},
-					{ path: "new", element: <div>NewProduct</div> },
+					{ path: "new", element: <NewProduct /> },
 				],
 			},
 
