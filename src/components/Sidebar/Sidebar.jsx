@@ -3,9 +3,24 @@ import { FaShippingFast, FaWarehouse } from "react-icons/fa";
 import { IoSettings, IoStatsChart } from "react-icons/io5";
 import { MdAccountCircle } from "react-icons/md";
 import { RiDashboardFill, RiLogoutBoxRLine } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
+import { signOut } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/auth-Slice";
 
 const Sidebar = () => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const handleLogOut = () => {
+		//
+		signOut(auth);
+		console.log("User signed out successfully");
+		// Optionally redirect or update state here
+		localStorage.removeItem("token");
+		navigate("/login", { replace: true });
+		dispatch(logout());
+	};
 	return (
 		<aside
 			id="logo-sidebar"
@@ -112,7 +127,10 @@ const Sidebar = () => {
 					</li>
 
 					<li>
-						<button className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+						<button
+							onClick={handleLogOut}
+							className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+						>
 							<RiLogoutBoxRLine
 								className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 								aria-hidden="true"

@@ -1,6 +1,11 @@
 // import React from "react";
 
+import { useSelector } from "react-redux";
+
 const AdminPanel = () => {
+	const { currentUser } = useSelector((state) => state.authState);
+	console.log(currentUser);
+
 	return (
 		<div>
 			<h1>AdminPanel</h1>

@@ -1,34 +1,112 @@
-import React, { useState } from "react";
+import {
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+} from "firebase/auth";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../store/auth-Slice";
 
-const AuthPage = () => {
-	const [isSignUp, setIsSignUp] = useState(false);
-	const [errorMessage, setErrorMessage] = useState("");
-	const [isErrorVisible, setIsErrorVisible] = useState(false);
+const AuthPage = ({ isSignUp }) => {
+	// const [isSignUp, setIsSignUp] = useState(false);
+
+	const [errMessage, setErrMessage] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 
-	const isSignUpHandler = () => {
-		setIsSignUp((prev) => !prev);
-		// setEmail("");
-		// setPassword("");
-	};
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const confirmPasswordRef = useRef();
+
+	const dispatch = useDispatch();
+	// const { isLoggedIn } = useSelector((state) => state.auth);
 
 	const navigate = useNavigate();
 
-	const handleAuthentication = (event) => {
+	const handleAuthentication = async (event) => {
 		event.preventDefault();
-		setIsLoading(true);
-		setIsErrorVisible(false);
-		setErrorMessage("");
-		if (isSignUp) {
-			// sign up logic
-		} else {
-			// sign in logic
-		}
 
-		setIsLoading(false);
-		navigate("/", { replace: true });
+		setIsLoading(true);
+		setErrMessage("");
+
+		try {
+			let userCredential;
+
+			if (!isSignUp) {
+				// sign in logic
+				userCredential = await signInWithEmailAndPassword(
+					auth,
+					email,
+					password
+				);
+			} else {
+				// sign up logic
+				if (password !== confirmPasswordRef.current.value) {
+					throw new Error(`Password Doesn't match`);
+				}
+				userCredential = await createUserWithEmailAndPassword(
+					auth,
+					email,
+					password
+				);
+			}
+
+			// Extract user info
+			const user = userCredential.user;
+
+			const {
+				accessToken,
+				displayName,
+				email: userEmail, // Renamed to userEmail
+				emailVerified,
+				photoURL,
+				uid,
+				phoneNumber,
+				providerData,
+			} = user;
+
+			// Create serializable user object
+			const userObj = {
+				accessToken,
+				displayName,
+				email: userEmail, // Renamed to userEmail
+				emailVerified,
+				photoURL,
+				uid,
+				phoneNumber,
+				providerData,
+			};
+
+			// Save user data to localStorage
+			// localStorage.setItem("user", JSON.stringify(userObj));
+			localStorage.setItem("token", accessToken);
+			console.log(userObj);
+			// Dispatch user data to Redux store
+			dispatch(login(userObj));
+			// Navigate after successful authentication
+			navigate("/admin", { replace: true });
+		} catch (error) {
+			console.log(error);
+
+			// Handle error correctly
+			const errorCode = error.code;
+			const errorMessage = errorCode || error.message || "Unknown error";
+			setErrMessage(errorMessage);
+			console.log("Error during authentication:", errorMessage);
+		} finally {
+			// Always stop loading state after request is done
+			setIsLoading(false);
+			setTimeout(() => setErrMessage(""), 3000);
+		}
 	};
+
+	useEffect(() => {
+		setEmail("");
+		setPassword("");
+		if (confirmPasswordRef.current) {
+			confirmPasswordRef.current.value = "";
+		}
+	}, [isSignUp]); // Clear inputs when the `isSignUp` state changes
 
 	return (
 		<div>
@@ -53,7 +131,7 @@ const AuthPage = () => {
 									: "Create an account"}
 							</h1>
 							<form
-								onClick={handleAuthentication}
+								onSubmit={handleAuthentication}
 								className="space-y-4 md:space-y-6"
 								action="#"
 							>
@@ -66,6 +144,10 @@ const AuthPage = () => {
 									</label>
 									<input
 										type="email"
+										value={email}
+										onChange={(e) =>
+											setEmail(e.target.value)
+										}
 										name="email"
 										id="email"
 										className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -102,11 +184,16 @@ const AuthPage = () => {
 									</label>
 									<input
 										type="password"
+										value={password}
+										onChange={(e) =>
+											setPassword(e.target.value)
+										}
 										name="password"
 										id="password"
-										placeholder="••••••••"
 										className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										placeholder="••••••••"
 										required=""
+										autoComplete="current-password"
 									/>
 								</div>
 								{isSignUp && (
@@ -118,18 +205,24 @@ const AuthPage = () => {
 											Confirm Password
 										</label>
 										<input
+											ref={confirmPasswordRef}
 											type="password"
 											name="confirm-password"
 											id="confirm-password"
-											placeholder="••••••••"
 											className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-teal-600 focus:border-teal-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+											placeholder="••••••••"
 											required=""
+											autoComplete="confirm-password"
 										/>
 									</div>
 								)}
-								<span className="p-2.5 mt-2">hello</span>
+								<span
+									className={`err p-1 flex h-8 text-red-500 ${errMessage ? "visible" : "invisible"}`}
+								>
+									{errMessage}
+								</span>
 								<div
-									className={`flex items-center ${!isSignUp ? "justify-between" : ""}`}
+									className={`info flex items-center ${!isSignUp ? "justify-between" : ""}`}
 								>
 									{!isSignUp && (
 										<Link
@@ -179,7 +272,6 @@ const AuthPage = () => {
 										Don’t have an account yet?{" "}
 										<Link
 											to="/signup"
-											onClick={isSignUpHandler}
 											className="font-medium text-teal-600 hover:underline dark:text-teal-500"
 										>
 											Sign up
@@ -191,7 +283,6 @@ const AuthPage = () => {
 										Already have an account?{" "}
 										<Link
 											to="/login"
-											onClick={isSignUpHandler}
 											className="font-medium text-teal-600 hover:underline dark:text-teal-500"
 										>
 											Login here

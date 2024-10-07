@@ -7,3 +7,17 @@ body {
 	min-width: 320px;
 	min-height: 100%;
 }
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.err {
+	margin: 0 !important;
+}
+
+.info {
+	margin-top: 5px !important;
+}
