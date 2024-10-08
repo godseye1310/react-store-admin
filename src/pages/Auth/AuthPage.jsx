@@ -5,7 +5,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../../store/auth-Slice";
 
 const AuthPage = ({ isSignUp }) => {

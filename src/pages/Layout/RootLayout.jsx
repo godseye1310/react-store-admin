@@ -2,8 +2,17 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { handleFetchProducts } from "../../store/productActions-thunk";
 
 const RootLayout = () => {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(handleFetchProducts());
+	}, [dispatch]);
+
 	return (
 		<main className=" w-full relative flex flex-col">
 			<Navbar />

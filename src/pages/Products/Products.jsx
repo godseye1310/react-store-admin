@@ -2,8 +2,10 @@
 import Table from "../../components/Table/Table";
 import { Link } from "react-router-dom";
 import { GoPlus } from "react-icons/go";
+import { useSelector } from "react-redux";
 
 const Products = () => {
+	const { productsList } = useSelector((state) => state.products);
 	return (
 		<div>
 			<div className="flex justify-between items-center">
@@ -25,7 +27,7 @@ const Products = () => {
 					</p>
 				</Link>
 			</div>
-			<Table />
+			<Table products={productsList} />
 		</div>
 	);
 };

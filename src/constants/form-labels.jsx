@@ -1,6 +1,6 @@
 export const productInputs = [
 	{
-		id: "name",
+		id: "productName",
 		label: "Product Name",
 		type: "text",
 		placeholder: "Type product Name",
