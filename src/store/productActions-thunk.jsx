@@ -1,21 +1,36 @@
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+	addDoc,
+	collection,
+	deleteDoc,
+	doc,
+	getDocs,
+	updateDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
-import { addProduct, setProductsList } from "./product-slice";
+import {
+	addProduct,
+	deleteProduct,
+	setProductsList,
+	updateProduct,
+} from "./product-slice";
 
-export const handleAddProduct = (productData) => async (dispatch) => {
+export const handleAddProduct = (newProductData) => async (dispatch) => {
 	try {
 		// Add product to Firestore
-		const productRef = await addDoc(
+		const newProductRef = await addDoc(
 			collection(db, "products"),
-			productData
+			newProductData
 		);
-
 		// Add the new product's ID to the data
-		const productWithId = { id: productRef.id, ...productData };
+		const newProductWithId = { id: newProductRef.id, ...newProductData };
+		dispatch(addProduct(newProductWithId)); // Dispatch success action
 
-		dispatch(addProduct(productWithId)); // Dispatch success action
+		// Return a success flag
+		return true; // Indicating that the product was added successfully
 	} catch (err) {
 		console.log("Error adding product: ", err);
+		// Propagate the error upwards
+		throw new Error("Error adding product to Firestore: " + err.message);
 	}
 };
 
@@ -32,5 +47,29 @@ export const handleFetchProducts = () => async (dispatch) => {
 		dispatch(setProductsList(productsList));
 	} catch (error) {
 		console.log(error);
+	}
+};
+
+export const handleUpdateProduct = (updatedData, id) => async (dispatch) => {
+	try {
+		const docRef = doc(db, "products", id);
+		await updateDoc(docRef, updatedData);
+		dispatch(updateProduct({ id, ...updatedData }));
+		return true;
+	} catch (err) {
+		console.log(err);
+		throw new Error("Error Updating product to Firestore: " + err.message);
+	}
+};
+
+export const handleDeleteProduct = (id) => async (dispatch) => {
+	try {
+		const docRef = doc(db, "products", id);
+		await deleteDoc(docRef);
+		console.log("Product deleted successfully");
+
+		dispatch(deleteProduct(id));
+	} catch (err) {
+		console.log(err);
 	}
 };

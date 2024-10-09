@@ -18,6 +18,8 @@ const productSlice = createSlice({
 		},
 		// Action for updating a product
 		updateProduct: (state, action) => {
+			// console.log(action.payload);
+
 			const index = state.productsList.findIndex(
 				(product) => product.id === action.payload.id
 			);
@@ -28,7 +30,7 @@ const productSlice = createSlice({
 		// Action for deleting a product
 		deleteProduct: (state, action) => {
 			state.productsList = state.productsList.filter(
-				(product) => product.id !== action.payload.id
+				(product) => product.id !== action.payload
 			);
 		},
 	},

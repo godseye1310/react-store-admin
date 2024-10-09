@@ -8,7 +8,7 @@ const Products = () => {
 	const { productsList } = useSelector((state) => state.products);
 	return (
 		<div>
-			<div className="flex justify-between items-center">
+			<div className="flex justify-between items-center max-w-7xl">
 				<h1 className="text-3xl font-poppins text-gray-600 dark:text-slate-gray font-bold mb-5">
 					Products
 				</h1>

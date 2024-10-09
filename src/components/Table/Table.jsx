@@ -2,27 +2,15 @@
 import { useEffect, useRef, useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { useSort } from "../../hooks/use-Sort";
+import { Link } from "react-router-dom";
+import { MdDeleteForever, MdRemoveRedEye } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { handleDeleteProduct } from "../../store/productActions-thunk";
 
 const Table = ({ products }) => {
-	console.log(products);
+	// console.log(products);
+	const dispatch = useDispatch();
 
-	// useEffect(() => {
-	// 	const tableElement = document.querySelector("#products-table");
-
-	// 	const dt = new DataTable(tableElement, {
-	// 		columns: [
-	// 			{ select: 1, sortable: true, searchable: true },
-	// 			{ select: 2, sortable: false, searchable: false },
-	// 			{ select: 3, sortable: true, searchable: false },
-	// 			{ select: 4, sortable: true, searchable: false },
-	// 			{ select: 5, sortable: false, searchable: false },
-	// 		],
-	// 	});
-
-	// 	return () => {
-	// 		dt.destroy(); // Clean up to avoid memory leaks
-	// 	};
-	// }, []);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [currentPage, setCurrentPage] = useState(1);
 	const productsPerPage = 10;
@@ -68,10 +56,14 @@ const Table = ({ products }) => {
 		setCurrentPage(1);
 	};
 
+	const productDeleteHandler = (id) => {
+		dispatch(handleDeleteProduct(id));
+	};
+
 	return (
 		<div>
-			<div className="relative overflow-x-auto shadow-lg sm:rounded-lg">
-				<div className="pb-4 bg-white dark:bg-gray-900">
+			<div className="relative max-w-7xl min-h-[600px] overflow-x-auto shadow-lg rounded-lg p-3 bg-neutral-100 shadow-gray-300 dark:bg-slate-900 dark:shadow-white/10">
+				<div className="pb-4">
 					<label htmlFor="table-search" className="sr-only">
 						Search
 					</label>
@@ -88,7 +80,7 @@ const Table = ({ products }) => {
 							value={searchTerm}
 							onChange={handleSearch}
 							// onChange={handleSearch} // Custom search handler
-							className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-3xl w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 							placeholder="Search for items"
 						/>
 					</div>
@@ -99,12 +91,8 @@ const Table = ({ products }) => {
 				>
 					<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 						<tr>
-							<th
-								scope="col"
-								onClick={() => requestSort("productName")}
-								className="p-4"
-							>
-								<div className="flex items-center">
+							<th scope="col" className="p-4">
+								<div className="items-center">
 									<input
 										id="checkbox-all-search"
 										type="checkbox"
@@ -120,10 +108,10 @@ const Table = ({ products }) => {
 							</th>
 							<th
 								scope="col"
-								className="px-6 py-3"
+								className="px-6 py-3 w-[300px] cursor-pointer"
 								onClick={() => requestSort("productName")}
 							>
-								<span className="flex items-center cursor-pointer">
+								<span className="">
 									Product name
 									{sortConfig?.key === "productName" &&
 										(sortConfig.order === "asc"
@@ -133,7 +121,7 @@ const Table = ({ products }) => {
 							</th>
 							<th
 								scope="col"
-								className="px-6 py-3"
+								className="px-3 py-3 text-center cursor-pointer"
 								onClick={() => requestSort("stock")}
 							>
 								Stock
@@ -142,14 +130,14 @@ const Table = ({ products }) => {
 							</th>
 							<th
 								scope="col"
-								className="px-6 py-3"
+								className="px-6 py-3 cursor-pointer"
 								onClick={() => requestSort("category")}
 							>
 								Category
 								{sortConfig?.key === "category" &&
 									(sortConfig.order === "asc" ? " ▲" : " ▼")}
 							</th>
-							<th scope="col" className="px-6 py-3">
+							<th scope="col" className="px-6 py-3 max-md:hidden">
 								Price
 							</th>
 							<th scope="col" className="px-6 py-3">
@@ -166,41 +154,51 @@ const Table = ({ products }) => {
 								<td className="w-4 p-4">
 									<div className="flex items-center">
 										<input
-											id="checkbox-table-search-1"
+											id={`checkbox-table-search-${i}`}
 											type="checkbox"
 											className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
 										/>
-										<label
-											htmlFor="checkbox-table-search-1"
-											className="sr-only"
-										>
-											checkbox
-										</label>
 									</div>
 								</td>
 								<th
 									scope="row"
-									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white max-w-[300px]"
 								>
 									{product.productName}
 								</th>
-								<td className="px-6 py-4">{product.stock}</td>
+								<td className="px-3 py-4 text-center whitespace-nowrap">
+									{product.stock === 0 ? (
+										<span className="bg-red-500/30 rounded-md px-1.5 py-0.5">
+											Out of stock
+										</span>
+									) : (
+										product.stock
+									)}
+								</td>
 								<td className="px-6 py-4">
 									{product.category}
 								</td>
-								<td className="px-6 py-4">${product.price}</td>
+								<td className="px-6 py-4 max-md:hidden">
+									${product.price}
+								</td>
 								<td className="px-6 py-4 flex gap-2">
-									<a
-										href="#"
-										className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+									<Link
+										to={`/admin/products/${product.id}`}
+										className="font-medium text-blue-600 dark:hover:text-blue-500 opacity-60 hover:opacity-100"
 									>
-										Edit
-									</a>
+										<MdRemoveRedEye
+											size={25}
+											title="View"
+										/>
+									</Link>
 									<button
 										type="button"
-										className="font-medium text-red-600 dark:text-red-500 hover:underline"
+										onClick={() =>
+											productDeleteHandler(product.id)
+										}
+										className="font-medium text-red-600 dark:text-red-500 opacity-60 hover:opacity-100 hover:underline"
 									>
-										Delete
+										<MdDeleteForever size={25} />
 									</button>
 								</td>
 							</tr>

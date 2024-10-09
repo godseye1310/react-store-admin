@@ -13,6 +13,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentUser } from "./store/auth-Slice";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Orders from "./pages/Orders/Orders";
+import ProductInfo from "./pages/Products/ProductInfo";
 
 function App() {
 	const { isLoggedIn } = useSelector((state) => state.authState);
@@ -61,7 +63,7 @@ function App() {
 				{
 					path: "orders",
 					children: [
-						{ index: true, element: <div>Orders</div> },
+						{ index: true, element: <Orders /> },
 						{ path: ":orderId", element: <div>OrderInfo</div> },
 					],
 				},
@@ -72,7 +74,7 @@ function App() {
 						{ index: true, element: <Products /> },
 						{
 							path: ":productId",
-							element: <div>ProductInfo</div>,
+							element: <ProductInfo />,
 						},
 						{ path: "new", element: <NewProduct /> },
 					],
