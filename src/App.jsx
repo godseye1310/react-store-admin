@@ -15,6 +15,8 @@ import { fetchCurrentUser } from "./store/auth-Slice";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Orders from "./pages/Orders/Orders";
 import ProductInfo from "./pages/Products/ProductInfo";
+import Settings from "./pages/Admin/Settings";
+import Profile from "./pages/Admin/Profile";
 
 function App() {
 	const { isLoggedIn } = useSelector((state) => state.authState);
@@ -80,8 +82,8 @@ function App() {
 					],
 				},
 
-				{ path: "settings", element: <div>Settings</div> },
-				{ path: "profile", element: <div>Profile</div> },
+				{ path: "settings", element: <Settings /> },
+				{ path: "profile", element: <Profile /> },
 			],
 		},
 	]);

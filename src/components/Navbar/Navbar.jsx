@@ -3,6 +3,7 @@
 import { IoIosArrowDown } from "react-icons/io";
 import { HiMenuAlt2 } from "react-icons/hi";
 import { DarkThemeToggle } from "flowbite-react";
+import { FaReact } from "react-icons/fa";
 
 const Navbar = () => {
 	return (
@@ -24,19 +25,15 @@ const Navbar = () => {
 								aria-hidden="true"
 							/>
 						</button>
-						<div className="flex ms-2 md:me-24">
-							<img
-								src="https://flowbite.com/docs/images/logo.svg"
-								className="h-8 me-3"
-								alt="FlowBite Logo"
-							/>
-							<span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-								Flowbite
+						<div className="flex items-center justify-center gap-x-3 ms-2 md:me-24 ">
+							<FaReact className=" h-8 w-8 text-teal-600 dark:text-teal-400 animate-spin aniduration" />
+							<span className="self-center text-teal-500 text-xl font-bold font-montserrat sm:text-2xl whitespace-nowrap">
+								ReactAdmin
 							</span>
 						</div>
 					</div>
 					<div className="flex items-center">
-						<DarkThemeToggle />
+						<DarkThemeToggle className="dark:text-amber-500 text-blue-600" />
 						<div className="flex items-center ms-3">
 							<div>
 								<button
@@ -50,8 +47,8 @@ const Navbar = () => {
 										Open user menu
 									</span>
 									<img
-										className="w-8 h-8 rounded-full"
-										src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+										className="w-8 h-8 rounded-full object-cover"
+										src="https://s4.anilist.co/file/anilistcdn/character/large/b123217-sZaSZQGBYTcu.png"
 										alt="user photo"
 									/>
 									<IoIosArrowDown
@@ -69,13 +66,13 @@ const Navbar = () => {
 										className="text-sm text-gray-900 dark:text-white"
 										role="none"
 									>
-										Neil Sims
+										Sae Chabashira
 									</p>
 									<p
 										className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
 										role="none"
 									>
-										neil.sims@flowbite.com
+										sae.chabashira@admin.in
 									</p>
 								</div>
 								<ul className="py-1" role="none">

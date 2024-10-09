@@ -1,6 +1,6 @@
 const ImgDisplay = ({ imgArr = [] }) => {
 	return (
-		<div className="flex flex-wrap min-h-36 items-center justify-start w-full gap-3 rounded-lg bg-slate-100 bg-black/10 dark:bg-white/10 p-3">
+		<div className="flex flex-wrap min-h-36 items-center justify-start w-full gap-3 rounded-lg bg-slate-300 bg-black/10 dark:bg-white/10 p-3">
 			{imgArr.map((img, i) => (
 				<img
 					key={i}

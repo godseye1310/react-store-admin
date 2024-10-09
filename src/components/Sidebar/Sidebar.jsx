@@ -4,7 +4,7 @@ import { IoSettings, IoStatsChart } from "react-icons/io5";
 import { MdAccountCircle } from "react-icons/md";
 import { RiDashboardFill, RiLogoutBoxRLine } from "react-icons/ri";
 import { NavLink, useNavigate } from "react-router-dom";
-import { auth } from "../../firebase";
+import { auth } from "../../firebase.config";
 import { signOut } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/auth-Slice";

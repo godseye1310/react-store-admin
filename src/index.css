@@ -21,3 +21,11 @@ body {
 .info {
 	margin-top: 5px !important;
 }
+
+.aniduration {
+	animation-duration: 6s !important;
+}
+
+.aniduration2 {
+	animation-duration: 2s !important;
+}

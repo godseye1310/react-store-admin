@@ -4,9 +4,12 @@ import {
 } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../../firebase";
+import { auth } from "../../firebase.config";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/auth-Slice";
+import { FaReact } from "react-icons/fa";
+import { RiLoader2Fill } from "react-icons/ri";
+import { DarkThemeToggle } from "flowbite-react";
 
 const AuthPage = ({ isSignUp }) => {
 	// const [isSignUp, setIsSignUp] = useState(false);
@@ -110,18 +113,19 @@ const AuthPage = ({ isSignUp }) => {
 
 	return (
 		<div>
-			<section className="bg-gray-50 dark:bg-gray-900">
+			<section className="bg-gray-50 dark:bg-gray-900 relative">
+				<span className="justify-self-center h-fit absolute top-0 right-[50%] translate-x-1/2">
+					<DarkThemeToggle className="dark:text-amber-500 text-blue-600" />
+				</span>
 				<div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
 					<b
 						htmlFor="#"
-						className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+						className="flex items-center mb-6 text-3xl font-semibold font-poppins text-teal-500"
 					>
-						<img
-							className="w-8 h-8 mr-2"
-							src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
-							alt="logo"
-						/>
-						Flowbite
+						<img className="w-8 h-8" src="/vite.svg" alt="logo" />
+						<span className="text-lg text-coral-red mx-2">+</span>
+						<FaReact className="aniduration w-8 h-8 mr-2 text-teal-600 dark:text-teal-400 animate-spin" />
+						React Admin
 					</b>
 					<div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
 						<div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -263,9 +267,21 @@ const AuthPage = ({ isSignUp }) => {
 								</div>
 								<button
 									type="submit"
-									className="w-full text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+									className="w-full h-10 text-white bg-teal-600 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 inline-flex items-center justify-center"
 								>
-									Sign in
+									{!isLoading && (
+										<span>
+											{isSignUp ? "Sign up" : "Sign in"}
+										</span>
+									)}
+									{isLoading && (
+										<p className="inline-flex items-center gap-3 justify-center animate-pulse">
+											<span className=" ">
+												Authenticating
+											</span>
+											<RiLoader2Fill className="w-5 h-5 animate-spin aniduration2" />
+										</p>
+									)}
 								</button>
 								{!isSignUp && (
 									<p className="text-sm font-light text-gray-800 dark:text-gray-400">

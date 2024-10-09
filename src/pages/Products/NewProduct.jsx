@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Form from "../../components/Form/Form";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage } from "../../firebase";
+import { storage } from "../../firebase.config";
 import { useDispatch } from "react-redux";
 import { handleAddProduct } from "../../store/productActions-thunk";
 
