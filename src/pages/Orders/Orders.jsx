@@ -1,5 +1,4 @@
 // import React from 'react'
-
 import { useSelector } from "react-redux";
 import OrderTable from "../../components/Table/OrderTable";
 
@@ -13,7 +12,7 @@ const Orders = () => {
 				Orders
 			</h1>
 			<div>
-				<OrderTable orders={ordersList} />
+				<OrderTable ordersList={ordersList} />
 			</div>
 		</div>
 	);

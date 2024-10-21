@@ -13,20 +13,20 @@ const orderSlice = createSlice({
 		setOrdersList: (state, action) => {
 			state.ordersList = action.payload;
 		},
-		updateOrder: (state, action) => {
-			// console.log(action.payload);
+		updateOrderStatus: (state, action) => {
+			const { id: updateOrderId, orderStatus } = action.payload;
 
-			const index = state.ordersList.findIndex(
-				(order) => order.id === action.payload.id
+			const updateOrder = state.ordersList.find(
+				(order) => order.id === updateOrderId
 			);
-			if (index !== -1) {
-				state.productsList[index] = action.payload;
+			if (updateOrder) {
+				updateOrder.orderStatus = orderStatus;
 			}
 		},
 	},
 });
 
-export const { setOrdersList, updateOrder } = orderSlice.actions;
+export const { setOrdersList, updateOrderStatus } = orderSlice.actions;
 export default orderSlice.reducer;
 
 export const handleFetchOrders = () => async (dispatch) => {
@@ -38,10 +38,10 @@ export const handleFetchOrders = () => async (dispatch) => {
 		querySnapshot.forEach((doc) => {
 			const orderData = doc.data();
 
-			// Safely convert Firestore Timestamp to a serializable ISO string
+			// Safely convert Firestore Timestamp to a serializable string
 			const timeStamp = orderData.timeStamp
-				? orderData.timeStamp.toDate().toLocaleDateString() // Convert if exists
-				: null; // If no timeStamp, just set it as null
+				? orderData.timeStamp.toDate().toLocaleDateString()
+				: null;
 
 			ordersList.push({
 				id: doc.id,
@@ -57,16 +57,17 @@ export const handleFetchOrders = () => async (dispatch) => {
 };
 
 export const handleUpdateOrderStatus =
-	(updatedData, id) => async (dispatch) => {
+	(orderId, newStatus) => async (dispatch) => {
 		try {
-			const docRef = doc(db, "orders", id);
-			await updateDoc(docRef, updatedData);
-			dispatch(updateOrder({ id, ...updatedData }));
-			return true;
+			// Create a reference to the order document
+			const orderRef = doc(db, "orders", orderId);
+			// Update the orderStatus field in the document
+			await updateDoc(orderRef, { orderStatus: newStatus });
+
+			dispatch(
+				updateOrderStatus({ id: orderId, orderStatus: newStatus })
+			);
 		} catch (err) {
 			console.log(err);
-			throw new Error(
-				"Error Updating product to Firestore: " + err.message
-			);
 		}
 	};

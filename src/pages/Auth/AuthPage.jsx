@@ -4,12 +4,13 @@ import {
 } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../../firebase.config";
+import { auth, db } from "../../firebase.config";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/auth-Slice";
 import { FaReact } from "react-icons/fa";
 import { RiLoader2Fill } from "react-icons/ri";
 import { DarkThemeToggle } from "flowbite-react";
+import { doc, setDoc } from "firebase/firestore";
 
 const AuthPage = ({ isSignUp }) => {
 	// const [isSignUp, setIsSignUp] = useState(false);
@@ -52,6 +53,11 @@ const AuthPage = ({ isSignUp }) => {
 					email,
 					password
 				);
+
+				// Set admin in Firestore
+				await setDoc(doc(db, "admins", userCredential.user.uid), {
+					role: "admin",
+				});
 			}
 
 			// Extract user info
