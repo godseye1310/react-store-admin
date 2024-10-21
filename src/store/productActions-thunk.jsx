@@ -41,7 +41,15 @@ export const handleFetchProducts = () => async (dispatch) => {
 		const productsList = [];
 
 		querySnapshot.forEach((doc) => {
-			productsList.push({ id: doc.id, ...doc.data() });
+			const productData = doc.data();
+			const timeStamp = productData.timeStamp
+				? productData.timeStamp.toDate().toLocaleDateString()
+				: null;
+			productsList.push({
+				id: doc.id,
+				...productData,
+				timeStamp,
+			});
 		});
 
 		dispatch(setProductsList(productsList));

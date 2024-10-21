@@ -5,12 +5,14 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { handleFetchProducts } from "../../store/productActions-thunk";
+import { handleFetchOrders } from "../../store/orders-slice";
 
 const RootLayout = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(handleFetchProducts());
+		dispatch(handleFetchOrders());
 	}, [dispatch]);
 
 	return (
