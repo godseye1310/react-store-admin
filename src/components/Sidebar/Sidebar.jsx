@@ -34,13 +34,16 @@ const Sidebar = () => {
 							data-drawer-target="logo-sidebar"
 							data-drawer-dismiss="logo-sidebar"
 							to="/admin"
-							className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+							end
+							className={({ isActive }) =>
+								`flex items-center p-2 rounded-lg ${isActive ? "text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 " : "text-gray-500 hover:text-gray-900   dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"}`
+							}
 						>
-							<RiDashboardFill className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+							<RiDashboardFill className="flex-shrink-0 w-5 h-5 transition duration-75" />
 							<span className="flex-1 ms-3 whitespace-nowrap">
 								Dashboard
 							</span>
-							<span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+							<span className=" items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300 hidden">
 								Pro
 							</span>
 						</NavLink>
@@ -51,9 +54,11 @@ const Sidebar = () => {
 							to="/admin/orders"
 							data-drawer-target="logo-sidebar"
 							data-drawer-dismiss="logo-sidebar"
-							className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+							className={({ isActive }) =>
+								`flex items-center p-2 rounded-lg ${isActive ? "text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 " : "text-gray-500 hover:text-gray-900   dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"}`
+							}
 						>
-							<FaShippingFast className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+							<FaShippingFast className="flex-shrink-0 w-5 h-5 transition duration-75" />
 							<span className="flex-1 ms-3 whitespace-nowrap">
 								Orders
 							</span>
@@ -64,9 +69,11 @@ const Sidebar = () => {
 							data-drawer-target="logo-sidebar"
 							data-drawer-dismiss="logo-sidebar"
 							to="/admin/products"
-							className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+							className={({ isActive }) =>
+								`flex items-center p-2 rounded-lg ${isActive ? "text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 " : "text-gray-500 hover:text-gray-900   dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"}`
+							}
 						>
-							<FaWarehouse className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+							<FaWarehouse className="flex-shrink-0 w-5 h-5 transition duration-75" />
 							<span className="flex-1 ms-3 whitespace-nowrap">
 								Products
 							</span>
@@ -76,9 +83,9 @@ const Sidebar = () => {
 						<div
 							data-drawer-target="logo-sidebar"
 							data-drawer-dismiss="logo-sidebar"
-							className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+							className="flex items-center p-2 rounded-lg text-gray-500 hover:text-gray-900   dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 						>
-							<IoStatsChart className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+							<IoStatsChart className="flex-shrink-0 w-5 h-5 transition duration-75" />
 							<span className="flex-1 ms-3 whitespace-nowrap">
 								Stats
 							</span>
@@ -91,9 +98,11 @@ const Sidebar = () => {
 							to="/admin/profile"
 							data-drawer-target="logo-sidebar"
 							data-drawer-dismiss="logo-sidebar"
-							className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+							className={({ isActive }) =>
+								`flex items-center p-2 rounded-lg ${isActive ? "text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 " : "text-gray-500 hover:text-gray-900   dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"}`
+							}
 						>
-							<MdAccountCircle className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+							<MdAccountCircle className="flex-shrink-0 w-5 h-5 transition duration-75" />
 							<span className="flex-1 ms-3 whitespace-nowrap">
 								Profile
 							</span>
@@ -104,9 +113,11 @@ const Sidebar = () => {
 							to="/admin/settings"
 							data-drawer-target="logo-sidebar"
 							data-drawer-dismiss="logo-sidebar"
-							className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+							className={({ isActive }) =>
+								`flex items-center p-2 rounded-lg ${isActive ? "text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 " : "text-gray-500 hover:text-gray-900   dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"}`
+							}
 						>
-							<IoSettings className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+							<IoSettings className="flex-shrink-0 w-5 h-5 transition duration-75" />
 
 							<span className="flex-1 ms-3 whitespace-nowrap">
 								Settings
@@ -117,10 +128,10 @@ const Sidebar = () => {
 					<li>
 						<button
 							onClick={handleLogOut}
-							className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+							className="flex items-center py-2 pl-2 pr-5 w-full rounded-lg text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700 hover:bg-red-500 dark:hover:bg-red-500/90 "
 						>
-							<RiLogoutBoxRLine className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-							<span className="flex-1 ms-3 whitespace-nowrap">
+							<RiLogoutBoxRLine className="flex-shrink-0 w-5 h-5 transition duration-75" />
+							<span className=" ms-3 whitespace-nowrap">
 								Logout
 							</span>
 						</button>
