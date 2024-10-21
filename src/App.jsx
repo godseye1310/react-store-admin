@@ -20,7 +20,7 @@ import Profile from "./pages/Admin/Profile";
 
 function App() {
 	const { isLoggedIn } = useSelector((state) => state.authState);
-	console.log(isLoggedIn);
+	// console.log(isLoggedIn);
 
 	const dispatch = useDispatch();
 	useEffect(() => {
