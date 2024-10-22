@@ -1,11 +1,14 @@
 // import React from "react";
 import { useDispatch } from "react-redux";
 import { handleUpdateOrderStatus } from "../../store/orders-slice";
+import { IoIosArrowDown } from "react-icons/io";
 
 const OrderTable = ({ ordersList }) => {
 	const dispatch = useDispatch();
 	const handleStatusChange = (orderId, newStatus) => {
 		//
+		console.log("Order ID:", orderId, "New Status:", newStatus);
+
 		dispatch(handleUpdateOrderStatus(orderId, newStatus));
 	};
 	return (
@@ -51,7 +54,15 @@ const OrderTable = ({ ordersList }) => {
 									{order.email}
 								</th>
 								<td className="px-3 py-4">{order.phone}</td>
-								<td className="px-3 py-4">{order.timeStamp}</td>
+								<td className="px-3 py-4">
+									{new Date(
+										order.timeStamp
+									).toLocaleDateString("en-IN", {
+										day: "numeric",
+										month: "short",
+										year: "numeric",
+									})}
+								</td>
 								<td className="px-3 py-4">
 									${order.totalPrice}
 								</td>
@@ -63,36 +74,32 @@ const OrderTable = ({ ordersList }) => {
 									{/* Display current order status */}
 									<div className="font-medium flex items-center justify-end">
 										<span
-											className={`text-left text-stone-100 px-3 py-1 rounded-lg w-20 ${order.orderStatus === "ordered" ? "bg-blue-500/90" : ""} ${order.orderStatus === "delivered" ? "bg-green-500/90" : ""} ${order.orderStatus === "canceled" ? "bg-red-500/90" : ""} ${order.orderStatus === "shipped" ? "bg-yellow-400/90" : ""} ${order.orderStatus === "refunded" ? "bg-purple-500/90" : ""}`}
+											className={`text-left text-stone-100 capitalize px-3 py-1 rounded-lg w-20 ${order.orderStatus === "ordered" ? "bg-blue-500/90" : ""} ${order.orderStatus === "delivered" ? "bg-green-500/90" : ""} ${order.orderStatus === "canceled" ? "bg-red-500/90" : ""} ${order.orderStatus === "shipped" ? "bg-yellow-400/90" : ""} ${order.orderStatus === "refunded" ? "bg-purple-500/90" : ""}`}
 										>
 											{order.orderStatus}
 										</span>
 
+										<label htmlFor={order.id}>
+											<IoIosArrowDown className="cursor-pointer size-5 hidden" />
+										</label>
+
 										{/* Dropdown for updating order status */}
 										<div className="relative inline-block">
 											<select
-												value={order.orderStatus}
+												id={order.id}
+												defaultValue="" // This allows the admin to make a new selection
 												onChange={(e) =>
 													handleStatusChange(
 														order.id,
 														e.target.value
 													)
 												}
-												className="styled-select appearance-none w-6 h-6 bg-transparent cursor-pointer"
+												className=" appearance-none cursor-pointer size-6 bg-transparent outline-none bg-gray-200  text-gray-700 py-1 px-3 rounded leading-tight border-none focus:ring-0 focus:bg-white"
 											>
 												<option value="" disabled>
 													Set Status
 												</option>
-												{order.orderStatus !==
-													"ordered" && (
-													<option
-														value={
-															order.orderStatus
-														}
-													>
-														{order.orderStatus}
-													</option>
-												)}
+												{/* Dropdown options excluding "ordered" */}
 												<option value="shipped">
 													Shipped
 												</option>

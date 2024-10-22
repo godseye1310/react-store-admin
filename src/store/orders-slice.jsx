@@ -40,7 +40,7 @@ export const handleFetchOrders = () => async (dispatch) => {
 
 			// Safely convert Firestore Timestamp to a serializable string
 			const timeStamp = orderData.timeStamp
-				? orderData.timeStamp.toDate().toLocaleDateString()
+				? orderData.timeStamp.toDate().toISOString()
 				: null;
 
 			ordersList.push({

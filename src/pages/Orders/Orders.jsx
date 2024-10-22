@@ -4,7 +4,12 @@ import OrderTable from "../../components/Table/OrderTable";
 
 const Orders = () => {
 	const { ordersList } = useSelector((state) => state.orders);
-	console.log(ordersList);
+	// console.log(ordersList);
+	const sortByDateOrderList = ordersList.slice().sort((a, b) => {
+		return new Date(b.timeStamp) - new Date(a.timeStamp);
+	});
+
+	// console.log(sortByDateOrderList);
 
 	return (
 		<div>
@@ -12,7 +17,7 @@ const Orders = () => {
 				Orders
 			</h1>
 			<div>
-				<OrderTable ordersList={ordersList} />
+				<OrderTable ordersList={sortByDateOrderList} />
 			</div>
 		</div>
 	);
